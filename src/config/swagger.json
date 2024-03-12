@@ -1,0 +1,332 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api/v1/",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://api.example.com/api/v1/",
+      "description": "Production server"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Login an user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "password": "12345678",
+                "username": "sonu"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Loggedin successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "id": "65f009bb52a3647698efc080",
+                    "username": "sonu"
+                  },
+                  "message": "Logged in successfully"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthroiesed"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      },
+      "content": {
+        "application/json": {}
+      }
+    },
+    "/chat/messages": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Get chat messages",
+        "parameters": [
+          {
+            "name": "chatRoom",
+            "in": "query",
+            "description": "chatRoom name to get messages" ,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "senderId",
+            "in": "query",
+            "description": "senderId to get messages" ,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status to filter out messages" ,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "senderId": {
+                          "type": "string"
+                        },
+                        "chatRoom": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "number"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "message": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "_id": "65eec7b28b3c7dd327c99703",
+                      "message": "welcome to ipl 2024",
+                      "senderId": "65eec0a023d8861afd2282f3",
+                      "chatRoom": "IPL",
+                      "status": 2,
+                      "createdAt": "2024-03-11T08:58:26.805Z",
+                      "updatedAt": "2024-03-11T09:05:27.036Z",
+                      "__v": 0
+                    }
+                  ],
+                  "message": "Data fetched successfully"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No data found"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "content": {
+          "application/json": {}
+        }
+      }
+    },
+    "/chat/messages/send": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Send a message",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "senderId": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "chatRoom": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "senderId": "65eec0a023d8861afd2282f3",
+                "chatRoom": "IPL",
+                "message": "welcome cks to ipl 2024"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "senderId": {
+                      "type": "string"
+                    },
+                    "chatRoom": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  },
+                  "message": "string"
+                }
+              }
+            },
+            "example": {
+              "data": {
+                "_id": "65eec7b28b3c7dd327c99703",
+                "message": "welcome to ipl 2024",
+                "senderId": "65eec0a023d8861afd2282f3",
+                "chatRoom": "IPL",
+                "status": 2,
+                "createdAt": "2024-03-11T08:58:26.805Z",
+                "updatedAt": "2024-03-11T09:05:27.036Z",
+                "__v": 0
+              },
+              "message": "Data fetched successfully"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "500": {
+        "description": "Internal Server Error"
+      }
+    },
+    "/chat/messages/{messageId}": {
+      "delete": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Delete a message",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "Id of the message to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Data deleted successfully"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "content": {
+          "application/json": {}
+        }
+      }
+    },
+    "content": {
+      "application/json": {}
+    }
+  }
+}
